@@ -24,15 +24,20 @@
 		});
 		
 		var radarLayers = [];
-		for(var hour = 0; hour <= 12; hour++){
+		var currDate = new Date();
+		for(var hour = 0; hour <= 15; hour++){
 		  displayHour = hour;
 		  if(displayHour < 10) { displayHour = '0'+displayHour; }
+		  
+		 var loopTime = currDate.getFullYear()+'-'+(currDate.getMonth()+1)+'-'+currDate.getDate()+'T'+displayHour+'%0A00%3A00.00\
+0Z';
+				   console.log(loopTime);
 		  radarLayers[hour] =  L.tileLayer.wms("http://daesvm1.atmos.albany.edu:8080/ncWMS/wms", {
 				   layers: 'HRRR/Precipitable_water_Entire_atmosphere',
 				   format: 'image/png',
 				   transparent: true,
 				   opacity: 0.0,
-				   time: '2014-10-09T'+displayHour+'%3A00%3A00.000Z'
+				   time: loopTime
 				 });
                   radarLayers[hour].addTo(map);
 		}
