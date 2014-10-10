@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet Quick Start Guide Example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="js/leaflet.css" />
+</head>
+<body>
+	<div id="map" style="width:600px; height: 600px;"></div>
+	<input id='timeSlider' type=range min=0 value=0 max=12 step=1>
+	<script src="js/leaflet.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>
+		var mapquestOSM = L.tileLayer("http://{s}.tiles.mapbox.com/v3/am3081.h0po4e8k/{z}/{x}/{y}.png");
+
+
+		map = L.map("map", {
+		  center: [42.76314586689494,-74.7509765625],
+		  zoom: 5,
+		  layers: [mapquestOSM],
+		  zoomControl: false
+		});
+		
+		var radarLayers = [];
+		for(var hour = 0; hour <= 12; hour++){
+		  displayHour = hour;
+		  if(displayHour < 10) { displayHour = '0'+displayHour; }
+		  radarLayers[hour] =  L.tileLayer.wms("http://daesvm1.atmos.albany.edu:8080/ncWMS/wms", {
+				   layers: 'HRRR/Precipitable_water_Entire_atmosphere',
+				   format: 'image/png',
+				   transparent: true,
+				   opacity: 0.0,
+				   time: '2014-10-09T'+displayHour+'%3A00%3A00.000Z'
+				 });
+                  radarLayers[hour].addTo(map);
+		}
+	$('#timeSlider').on('change',function(){
+	 console.log($(this).val());
+	 radarLayers.map(function(layer){ layer.setOpacity(0)});
+	 radarLayers[$(this).val()].setOpacity(0.5); 
+	});
+	var i = 0;                     //  set your counter to 1
+
+function myLoop () {           //  create a loop function
+   setTimeout(function () {    //  call a 3s setTimeout when the loop is called
+      $('#timeSlider').val(i);          //  your code here
+      i++;                     //  increment the counter
+      if (i <= 12) {            //  if the counter < 10, call the loop function
+         myLoop();             //  ..  again which will trigger another 
+      }                        //  ..  setTimeout()
+   }, 3000)
+}
+
+myLoop();
+	
+
+	</script>
+</body>
+</html>

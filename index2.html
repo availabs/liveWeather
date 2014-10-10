@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet Quick Start Guide Example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="js/leaflet.css" />
+</head>
+<body>
+	<div id="map" style="width:600px; height: 600px;"></div>
+
+	<script src="js/leaflet.js"></script>
+	<script>
+		var mapquestOSM = L.tileLayer("http://{s}.tiles.mapbox.com/v3/am3081.h0po4e8k/{z}/{x}/{y}.png");
+
+
+		map = L.map("map", {
+		  center: [42.76314586689494,-74.7509765625],
+		  zoom: 5,
+		  layers: [mapquestOSM],
+		  zoomControl: false
+		});
+
+		var radarLayer = L.tileLayer.wms("http://daesvm1.atmos.albany.edu:8080/ncWMS/wms", {
+                  layers: 'NAM14100418/u-component_of_wind_hybrid',
+                  format: 'image/png',
+                  transparent: true,
+                  opacity: 0.5,
+		  //crs: 'CRS:84',
+		  //bbox: -153.21272693133426,11.96894430751201,-49.02974394690523,57.38166531733874
+                });
+		radarLayer.addTo(map);
+	
+
+	</script>
+</body>
+</html>

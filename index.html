@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet Quick Start Guide Example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="js/leaflet.css" />
+</head>
+<body>
+	<div id="map" style="width:600px; height: 600px;"></div>
+
+	<script src="js/leaflet.js"></script>
+	<script>
+		var mapquestOSM = L.tileLayer("http://{s}.tiles.mapbox.com/v3/am3081.h0po4e8k/{z}/{x}/{y}.png");
+
+
+		map = L.map("map", {
+		  center: [42.76314586689494,-74.7509765625],
+		  zoom: 7,
+		  //layers: [mapquestOSM],
+		  zoomControl: false
+		});
+
+		var radarLayer = L.tileLayer.wms("http://nowcoast.noaa.gov/wms/com.esri.wms.Esrimap/obs", {
+                  layers: 'RAS_RIDGE_NEXRAD',
+                  format: 'image/png',
+                  transparent: true,
+                  opacity: 0.5
+                });
+		radarLayer.addTo(map);
+	
+
+	</script>
+</body>
+</html>
